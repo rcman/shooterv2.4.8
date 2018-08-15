@@ -1,4 +1,6 @@
-This was the space shooter I was working on with 1942 images. I stopped working on it but would like to continue one day.
+This was the space shooter I was working on with 1942 images. I stopped working on it but would like to continue one day. Right now I opted for main ship health rather than instant ship death. I don't have it exploding when your health reaches zero but that's easy enough to add.
+
+Enjoy!
 
 Compiled on Linux 
 
