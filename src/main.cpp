@@ -1,4 +1,4 @@
-/*This source code copyrighted by Lazy Foo' Productions (2004-2009) and may not
+/*This source code copyrighted by Franco Gaetan Productions (2004-2009) and may not
 be redestributed without written permission.*/
 
 //The headers
