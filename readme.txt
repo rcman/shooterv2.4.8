@@ -1,20 +1,3 @@
-Copyright Notice:
------------------
-The files within this zip file are copyrighted by Lazy Foo' Productions (2004-2009)
-and may not be redestributed without written permission.
+This was the space shooter I was working on with 1942 images. I stopped working on it but would like to continue one day.
 
-This project is linked against:
-----------------------------------------
-Windows:
-SDL
-SDLmain
-SDL_image
-
-*nix:
-SDL
-SDL_image
-
-(num / (digitPosition * 10)) % 10?
-
-if(digitPosition == 0) return num % 10;
-
+Compiled on Linux 
