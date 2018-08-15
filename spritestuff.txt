@@ -1,0 +1,28 @@
+struct Sprite
+{
+    SDL_Surface* spriteSheet;
+    SDL_Rect* spriteFrameCoordinates;
+    int currentFrame;
+    int frameDelay;
+    int frameCounter;
+};
+ then
+ you create a sprite
+ Sprite* player = new Sprite;
+ and
+ load the graphics
+ player->spriteSheet = load_image("player.png");
+ now, set the rects
+ player->spriteFrameCoordinates = new SDL_Rect [4]; // using 4 frames for example
+for (int index = 0; index < 4; index++) 
+{
+    player->spriteFrameCoordinates[index].x = (index * SPRITE_WIDTH);
+    player->spriteFrameCoordinates[index].y = 0;
+    player->spriteFrameCoordinates[index].w = SPRITE_WIDTH;
+    player->spriteFrameCoordinates[index].h = SPRITE_HEIGHT;
+}
+ next set the frame animation vars:
+ player->currentFrame = player->frameCounter = 0;
+player->frameDelay = 30; // guessing a time value here
+ now, to draw your sprite
+ apply_surface( playerX, playerY, player->spriteSheet, backbuffer, player->spriteFrameCoordinates[player->currentFrame] );

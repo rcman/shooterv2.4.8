@@ -1,0 +1,24 @@
+Undefined: in main.h add:
+
+const int MOTIONBUTTON_UP 		= 0x0;
+const int MOTIONBUTTON_DOWN 		= 0x1;
+const int MOTIONBUTTON_LEFT 		= 0x2;
+const int MOTIONBUTTON_RIGHT 		= 0x3;
+extern bool motionButtonDown[4];
+Undefined says:
+Undefined: put at the top of gameinit.cpp
+bool motionButtonDown[4] = {false, false, false, false};
+Undefined says:
+Undefined: in main.cpp, replace the line that checks for SDLK_ESCAPE that I added with everything here
+Undefined: http://paste.ccpssolutions.com/?show=97
+Undefined: its alot of code..but its simple as can be.
+we just set or unset the booleans for our motion buttons when the keys are up or down
+Undefined: it checks for WSAD and the arrow keys to represent the input. allows for greater usability  
+Undefined: then, in your game code, you just do 
+
+if (motionButtonDown[MOTIONBUTTON_LEFT]){/* mover player left */}
+Undefined: simple
+Franco says:
+done
+Franco says:
+ops

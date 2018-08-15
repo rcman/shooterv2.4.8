@@ -1,0 +1,9 @@
+if (rightB >= leftA &&
+                	leftB <= rightA &&
+                	bottomB >= topA &&
+                	topB <= bottomA)
+                {
+                	// collision
+                	fprintf(stderr,"Collision!\n");
+                }
+

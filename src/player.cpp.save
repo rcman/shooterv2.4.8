@@ -1,0 +1,264 @@
+#include "main.h"
+#include <string>
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
+
+bool init_player()
+{
+        if (!player) {player = new MyPlayer; return true;}
+        return false;
+}
+
+void moveplayer()
+{
+
+    if (player->x > 1000)
+    {
+        player->x = 1000;
+    }
+    if (player->x <10)
+    {
+        player->x = 10;
+    }
+    apply_surface( player->x, player->y, man, screen, &manA[player->animnumber]);
+
+}
+
+void movebullets()
+{
+    int i;
+            for (i = 0;i < MAX_SHOTS; i++)
+            {
+                if (savedshots[i].shotalive)
+                {
+                    // Move the Saved Shot
+                    savedshots[i].y = savedshots[i].y - 24;
+                    apply_surface( savedshots[i].x, savedshots[i].y, man, screen, &manA[1]);
+                        if (savedshots[i].y < 1 ) // Shot is dead
+                        {
+                            savedshots[i].shotalive = false;
+                        }
+
+                }
+            }
+}
+bool check_collision()
+{
+
+    int i;
+    int leftA, leftB;
+    int rightA, rightB;
+    int topA, topB;
+    int bottomA, bottomB;
+     //The sides of the rectangles
+     //Calculate the sides of rect A
+    // leftA = A.x;
+    // rightA = A.x + A.w;
+    // topA = A.y;
+    // bottomA = A.y + A.h;
+
+    //Calculate the sides of rect B
+    // leftB = B.x;
+    // rightB = B.x + B.w;
+    // topB = B.y;
+    //bottomB = B.y + B.h;
+
+
+    for (i = 0;i < MAX_SHOTS; i++)
+    {
+        if (savedshots[i].shotalive)
+        {
+                //Calculate the sides of rect A
+                leftA =  savedenemy[0].x;
+                rightA =  savedenemy[0].x +  savedenemy[0].w;
+                topA =  savedenemy[0].y;
+                bottomA =  savedenemy[0].y +  savedenemy[0].h;
+
+                //Calculate the sides of rect B
+                leftB = savedshots[i].x;
+                rightB = savedshots[i].x + savedshots[i].w;
+                topB = savedshots[i].y;
+                bottomB = savedshots[i].y + savedshots[i].h;
+
+                //If any of the sides from A are outside of B
+                if (rightB >= leftA &&
+                	leftB <= rightA &&
+                	bottomB >= topA &&
+                	topB <= bottomA)
+                {
+                	// collision
+                	savedenemy[i].collisiondetected = true;
+                    savedenemy[i].enemyalive = false;
+                }
+
+
+        }
+
+    }
+    //If none of the sides from A are outside B
+    return true;
+}
+
+void enemyexplodecheck()
+{
+   // Animation manA explosions are 1 -6
+    int i;
+    for (i = 0;i < MAX_ENEMIES; i++)
+    {
+        if (savedenemy[i].collisiondetected)
+        {
+
+            // Start explosion in current enemy pot and increase explosion by one
+           //savedenemy[i].animnumber = savedenemy[i].animnumber + 1;
+           // apply_surface( savedenemy[i].x,savedenemy[i].y, man, screen, &enemy1[savedenemy[i].animnumber]);
+            savedenemy[i].enemyalive = false;
+            if (savedenemy[i].animnumber > 5)
+            {
+                //explosion finished
+                savedenemy[i].collisiondetected = false;
+                savedshots[i].shotalive = false;
+                savedenemy[i].enemyalive = false;
+            }
+        }
+    }
+
+}
+
+
+void DrawMainMap()
+{
+    // clear screen to black
+	SDL_FillRect(screen, 0, 0);
+
+}
+
+void drawenemies()
+{
+
+    int c,t=1,delay;
+    for (c = 0;c < MAX_ENEMIES; c++)
+    {
+       if (savedenemy[c].enemyalive)
+       {
+           if (savedenemy[c].collisiondetected && delay < 5)
+            {
+                apply_surface(savedenemy[c].x,savedenemy[c].y, man, screen, &enemy1[savedenemy[t].animnumber]);
+
+                delay +=1;
+
+                if (delay ==4)
+                    {
+                        t = t + 1;
+                        delay = 0;
+                    }
+                    if (savedenemy[c].animnumber > 5 )
+                        {
+                            savedenemy[c].enemyalive = false;
+                            savedenemy[c].animnumber = 0;
+
+                        }
+
+             }
+
+       savedenemy[c].y +=4;
+        apply_surface(savedenemy[c].x,savedenemy[c].y, man, screen, &enemy1[0] );
+       if (savedenemy[c].y > 500)
+       {
+            savedenemy[c].y = 0;
+
+       }
+       }
+
+   }
+
+
+}
+
+
+
+void collision2()
+{
+    int i;
+    int leftA;
+    int rightA;
+    int topA;
+    int bottomA;
+ // savedenemy[i].x
+ // savedenemy[i].y
+ // savedshots[i].x
+ // savedshots[i].y
+
+    //Calculate the sides of rect A
+
+ //  leftA =  savedenemy[0].x;
+ //  rightA =  savedenemy[0].x +  savedenemy[0].w;
+//   topA =  savedenemy[0].y;
+
+                leftA =  savedenemy[0].x;
+                rightA =  savedenemy[0].x +  savedenemy[0].w;
+                topA =  savedenemy[0].y;
+                bottomA =  savedenemy[0].y +  savedenemy[0].h;
+
+
+for (i = 0;i < MAX_SHOTS; i++)
+{
+ if (savedshots[i].x >= leftA && savedshots[i].x <= rightA && savedshots[i].y >= topA && savedshots[i].y <= bottomA)
+    {
+
+                savedenemy[i].collisiondetected = true;
+                //savedexplosion[i].x = savedenemy[0].x;
+                //savedexplosion[i].y = savedenemy[0].y;
+                //savedenemy[i].enemyalive = false;
+                //savedexplosion[0].currentexplosions += 1;
+                apply_surface(savedexplosion[i].x,savedexplosion[i].y, man, screen, &enemy1[1]);
+                savedenemy[i].enemyalive = false;
+                //fprintf(stderr, "fooint %d foostring %s", 10, "hi!");
+
+    }
+}
+
+}
+
+void showexplosions()
+{
+    //savedexplosion[0].enemyexplosioncounter = 0;
+    //savedexplosion[0].enenmyexplosiondelay = 3;
+    int i, tempx, tempy, frame;
+    if (++savedexplosion[0].enemyexplosioncounter >= savedexplosion[0].enenmyexplosiondelay)
+    {
+
+            if (savedenemy[0].collisiondetected)
+                {
+                    // We Know this is true if it detected a collision so let show the explosion
+                    // the coordinated were saved for the x and y above now lets explode
+                    // the explosion frame number is 5
+                    // savedenemy[i].x; these hold the ships X
+                    // savedenemy[i].y; and the ships Y
+
+                    tempx = savedenemy[0].x;
+                    tempy = savedenemy[0].y;
+                    frame = ++savedexplosion[0].currentframe;
+                    apply_surface(tempx,tempy, man, screen, &enemy1[frame]);
+                }
+       savedexplosion[0].enemyexplosioncounter = 0;
+    }
+}
+
+void testexplosion()
+{
+        
+
+        if (savedexplosion[0].enemyexplosioncounter == 3)
+        {
+        savedenemy[0].animnumber += 1;
+        apply_surface(200,200, man, screen, &enemy1[savedenemy[0].animnumber]);
+        savedexplosion[0].enemyexplosioncounter = 0;
+        }
+            if (savedenemy[0].animnumber == 5)
+            {
+
+                savedenemy[0].animnumber = 1;
+            }
+
+
+}
