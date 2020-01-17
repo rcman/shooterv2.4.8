@@ -3,8 +3,8 @@ I opted for main ship health rather than instant ship death. I don't have it exp
 reaches zero but that's easy enough to add.
 
 Enjoy!
-![alt text](https://i.imgur.com/lMyWHJE.jpg)
 
+![img](https://i.imgur.com/lMyWHJE.jpg)
 
 Compiled on Linux 
 
